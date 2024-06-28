@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes } from "styled-components";
 
 // Animaciones
 export const pulse = keyframes`
@@ -22,7 +22,6 @@ export const ListContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-height: 100vh;
   overflow-y: auto; 
 `;
 

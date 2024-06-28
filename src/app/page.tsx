@@ -1,35 +1,31 @@
 "use client";
 
-import FilterSidebar from '@/src/components/FilterSidebar';
-import Header from '@/src/components/Header';
-import HotelList from '@/src/components/HotelList';
-import LayoutSearch from '@/src/components/LayoutSearch';
-import MapView from '@/src/components/MapView';
-import useHotels from '@/src/hooks/useHotels';
-import React from 'react';
-
+import FilterSidebar from "@/src/components/FilterSidebar";
+import Header from "@/src/components/Header";
+import HotelList from "@/src/components/HotelList";
+import LayoutSearch from "@/src/components/LayoutSearch";
+import MapView from "@/src/components/MapView";
+import React from "react";
+import { useHotelsStore } from "../store/hotelsStore";
 
 const Search = () => {
-  const {
-    hotels,
-    filteredHotels,
-    filters,
-    sortOrder,
-    hasMore,
-    handleLoadMore,
-    handleSortChange,
-    handleFilterChange,
-  } = useHotels();
+	// const { filters, sortOrder, handleSortChange, handleFilterChange } = useHotels();
 
-  return (
-    <LayoutSearch
-      sidebar={<FilterSidebar filters={filters} onFilterChange={handleFilterChange} />}
-      map={<MapView hotels={filteredHotels} />}
-    >
-      <Header onSortChange={handleSortChange} />
-      <HotelList hotels={filteredHotels} onLoadMore={handleLoadMore} hasMore={hasMore} />
-    </LayoutSearch>
-  );
+	const { fetchHotels, hotelsDisplayedOnMap, hotelsDisplayedInList } = useHotelsStore();
+
+	React.useEffect(() => {
+		fetchHotels();
+	}, [fetchHotels]);
+
+	return (
+		<LayoutSearch
+			// sidebar={<FilterSidebar filters={filters} onFilterChange={handleFilterChange} />}
+			map={<MapView hotels={hotelsDisplayedOnMap} />}
+		>
+			{/* <Header onSortChange={handleSortChange} /> */}
+			<HotelList hotels={hotelsDisplayedInList} />
+		</LayoutSearch>
+	);
 };
 
 export default Search;

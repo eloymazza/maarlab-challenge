@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const FilterContainer = styled.div`
   margin-bottom: 1rem;
+  color: black;
 `;
 
 export const Card = styled.div`

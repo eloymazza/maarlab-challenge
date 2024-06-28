@@ -1,18 +1,6 @@
-// api.ts
-export interface Hotel {
-	name: string;
-	finalPrice: number;
-	originalPrice: number;
-	star: number;
-	features: string[];
-	image: string;
-	coordinates: {
-		latitude: number;
-		longitude: number;
-	};
-}
+import { Hotel } from "../store/types";
 
-export const fetchHotels = async (): Promise<Hotel[]> => {
+export const getHotels = async (): Promise<Hotel[]> => {
 	try {
 		const response = await fetch("https://my-json-server.typicode.com/ma-maarlab/ma-maarlab/hotels");
 		const data = await response.json();
