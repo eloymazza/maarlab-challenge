@@ -25,7 +25,7 @@ const HotelList: React.FC<HotelListProps> = ({ hotels }) => {
 		const target = e.target as HTMLDivElement;
 		const scrollOnBottom = target.scrollHeight - target.scrollTop === target.clientHeight;
 		if (!scrollOnBottom) return;
-		if (!hasMore) return alert("No hay más hoteles");
+		if (!hasMore) return console.log("No hay más hoteles");
 		fetchAgain();
 	};
 
@@ -40,11 +40,17 @@ const HotelList: React.FC<HotelListProps> = ({ hotels }) => {
 				<div
 					style={{
 						position: "fixed",
-						top: "45%",
-						right: "45%",
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+						width: "400px",
+						top: "35%",
+						left: "calc(50% - (400px/2))",
+						fontSize: "1.75rem",
+						fontWeight: "bold",
 						height: "200px",
-						width: "200",
-						backgroundColor: "red",
+						color: "white",
+						backgroundColor: "black",
 						zIndex: 500,
 					}}
 				>

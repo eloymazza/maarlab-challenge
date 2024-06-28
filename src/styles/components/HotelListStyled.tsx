@@ -22,6 +22,7 @@ export const ListContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-height: 88dvh;
   overflow-y: auto; 
 `;
 

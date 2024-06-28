@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const LayoutContainer = styled.div`
   display: flex;
@@ -21,9 +21,9 @@ export const MainContainer = styled.main`
   display: flex;
   flex: 1;
   flex-direction: row;
-
   @media (max-width: 768px) {
     flex-direction: column;
+    padding: 1rem 1rem;
   }
 `;
 
@@ -32,7 +32,6 @@ export const Sidebar = styled.div`
   background-color: #fff;
   padding: 1rem;
   border-right: 1px solid #dee2e6;
-
   @media (max-width: 768px) {
     width: 100%;
     border-right: none;
@@ -44,21 +43,30 @@ export const MainContent = styled.div`
   width: 50%;
   padding: 1rem;
   overflow-y: auto;
-
   @media (max-width: 768px) {
     width: 100%;
+    max-height: 55dvh;
+      overflow-y: hidden;
   }
 `;
 
 export const MapContainer = styled.div`
-  width: 35%;
+  width: 50%;
   padding: 1rem;
   border-left: 1px solid #dee2e6;
-
   @media (max-width: 768px) {
     width: 100%;
     border-left: none;
     border-top: 1px solid #dee2e6;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    height: 35vh;
+    width: 100%;
+    z-index: 1000;
+    & canvas {
+      width: 100% !important;
+      }
   }
 `;
 
