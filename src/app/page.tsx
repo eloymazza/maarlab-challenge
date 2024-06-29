@@ -20,6 +20,7 @@ const Search = () => {
 			sidebar={<FilterSidebar filters={availableFilters} />}
 			map={<MapView hotels={hotelsDisplayedOnMap} />}
 		>
+			<Header />
 			<HotelList />
 		</LayoutSearch>
 	);

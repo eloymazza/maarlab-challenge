@@ -4,7 +4,8 @@ import { ListContainer, CardWrapper } from "../styles/components/HotelListStyled
 import { useHotelsStore } from "../store/useHotelsStore";
 
 const HotelList = () => {
-	const { fetchMore, isLoading, setLoading, hasMore, hotelsDisplayedInList, applyFilters } = useHotelsStore();
+	const { fetchMore, isLoading, setLoading, hasMore, hotelsDisplayedInList, applyFilters, sortHotelsDisplayedInList } =
+		useHotelsStore();
 
 	const fetchAgain = async () => {
 		setLoading(true);
@@ -12,6 +13,7 @@ const HotelList = () => {
 			// TODO: manage erorres
 			await fetchMore();
 			applyFilters();
+			sortHotelsDisplayedInList();
 			setLoading(false);
 		}, 2000);
 	};

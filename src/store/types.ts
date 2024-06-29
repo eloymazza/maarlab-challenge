@@ -42,3 +42,5 @@ export interface Filter {
 	title: string;
 	options: FilterOption[];
 }
+
+export type SortOrder = "asc" | "desc";

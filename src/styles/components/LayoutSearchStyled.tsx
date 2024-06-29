@@ -28,7 +28,7 @@ export const MainContainer = styled.main`
 `;
 
 export const Sidebar = styled.div`
-  width: 15%;
+  width: 20%%;
   background-color: #fff;
   padding: 1rem;
   border-right: 1px solid #dee2e6;
@@ -40,7 +40,7 @@ export const Sidebar = styled.div`
 `;
 
 export const MainContent = styled.div`
-  width: 50%;
+  width: 60%;
   padding: 1rem;
   overflow-y: auto;
   @media (max-width: 768px) {

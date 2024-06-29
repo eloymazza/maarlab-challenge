@@ -42,32 +42,12 @@ const useHotels = () => {
 	const handleSortChange = (value: string) => {
 		// setSortOrder(value);
 	};
-
-	const handleFilterChange = (filterTitle: string, optionValue: string, isChecked: boolean) => {
-		// setActiveFilters((prev) => {
-		// 	const newFilters = { ...prev };
-		// 	if (isChecked) {
-		// 		if (!newFilters[filterTitle]) {
-		// 			newFilters[filterTitle] = new Set();
-		// 		}
-		// 		newFilters[filterTitle].add(optionValue);
-		// 	} else {
-		// 		newFilters[filterTitle]?.delete(optionValue);
-		// 		if (newFilters[filterTitle]?.size === 0) {
-		// 			delete newFilters[filterTitle];
-		// 		}
-		// 	}
-		// 	return newFilters;
-		// });
-	};
-
 	return {
 		// hotels,
 		// filteredHotels,
 		filters,
 		// sortOrder,
 		// handleSortChange,
-		handleFilterChange,
 	};
 };
 

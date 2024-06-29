@@ -1,20 +1,16 @@
 // Header.tsx
 import React from "react";
 import { HeaderContainer, SortSelect } from "../styles/components/HeaderStyled";
-
-// Definición de tipos
-interface HeaderProps {
-	onSortChange: (sortValue: string) => void;
-}
-
-// Componente Header
-const Header: React.FC<HeaderProps> = ({ onSortChange }) => {
+import { useHotelsStore } from "../store/useHotelsStore";
+import { SortOrder } from "../store/types";
+const Header: React.FC = () => {
+	const { onSortOrderChange } = useHotelsStore();
 	return (
 		<HeaderContainer>
-			<h1 style={{ color: "black" }}>Hoteles</h1>
-			<SortSelect onChange={(e) => onSortChange(e.target.value)}>
-				<option value='price-asc'>Price: Low to High</option>
-				<option value='price-desc'>Price: High to Low</option>
+			<h1 style={{ color: "black", fontSize: "0.5rem" }}>Hoteles</h1>
+			<SortSelect onChange={(e) => onSortOrderChange(e.target.value as SortOrder)}>
+				<option value='asc'>Price: Low to High</option>
+				<option value='desc'>Price: High to Low</option>
 			</SortSelect>
 		</HeaderContainer>
 	);

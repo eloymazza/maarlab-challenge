@@ -15,7 +15,6 @@ interface Filter {
 
 interface FilterSidebarProps {
 	filters: Filter[];
-	// onFilterChange: (filterTitle: string, optionValue: string, isChecked: boolean) => void;
 }
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters }) => {

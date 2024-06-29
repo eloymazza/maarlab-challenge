@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { getHotels } from "../api/api";
-import { Filter, Hotel, Marker, StarOption } from "./types";
+import { Filter, Hotel, Marker, SortOrder, StarOption } from "./types";
 import { filterData } from "./FilterData";
 
 interface State {
@@ -17,17 +17,16 @@ interface State {
 	popularOptionsToggled: string[];
 	starOptionsChecked: number[];
 	markers: Marker[];
-	order: "asc" | "desc";
 	hasMore: boolean;
 	availableFilters: Filter[];
 	selectedFilters: { [key: string]: Set<string> };
+	sortOrder: SortOrder;
 	fetchHotels: () => void;
 	fetchMore: () => Promise<void>;
 	setLoading: (loading: boolean) => void;
-	handleFilterChange: (filterTitle: string, optionValue: string, isChecked: boolean) => void;
 	updateSelectedFilters: (filterTitle: string, optionValue: string, isChecked: boolean) => void;
-	// filterHotels: () => void;
 	filterHotelsByMapView: (bounds: mapboxgl.LngLatBounds) => void;
+
 	// getStarOptions: () => void;
 	// toggleStarOptionChecked: (id: number) => void;
 	// togglePopularOption: (option: string) => void;
@@ -35,6 +34,9 @@ interface State {
 	// setPage: () => void;
 	setMarkers: () => void;
 	applyFilters: () => void;
+	sortHotelsDisplayedInList: () => void;
+	updateSortOrder: (order: SortOrder) => void;
+	onSortOrderChange: (order: SortOrder) => void;
 	// sortByKey: (key: "finalPrice" | "star", order: "asc" | "desc", label: string) => void;
 }
 
@@ -47,6 +49,7 @@ export const useHotelsStore = create<State>((set, get) => ({
 	itemsPerPage: 4,
 	isLoading: true,
 	orderLabel: "Ordenar por",
+	sortOrder: "asc",
 	starOptions: [],
 	starOptionsChecked: [],
 	popularOptions: ["WIFI", "TV", "Breakfast", "Free Parking", "Gym", "Spa"],
@@ -54,7 +57,6 @@ export const useHotelsStore = create<State>((set, get) => ({
 	featuresChecked: [],
 	markers: [],
 	hasMore: true,
-	order: "asc",
 	availableFilters: filterData,
 	selectedFilters: {},
 	fetchHotels: async () => {
@@ -103,7 +105,6 @@ export const useHotelsStore = create<State>((set, get) => ({
 			const lng = hotel.coordinates.longitude;
 			return bounds.getWest() < lng && lng < bounds.getEast() && bounds.getSouth() < lat && lat < bounds.getNorth();
 		});
-		console.log("filteredByMap", filtered);
 		set({ hotelsDisplayedInList: filtered });
 	},
 	applyFilters: () => {
@@ -143,17 +144,23 @@ export const useHotelsStore = create<State>((set, get) => ({
 		}
 		set({ selectedFilters });
 	},
-	handleFilterChange: (filterTitle, optionValue, isChecked) => {
-		// const { activeFilters } = get();
-		// const currentChecked = new Set(activeFilters[filterTitle]);
-		// if (isChecked) {
-		// 	currentChecked.add(optionValue);
-		// } else {
-		// 	currentChecked.delete(optionValue);
-		// }
-		// set({ activeFilters: { ...activeFilters, [filterTitle]: Array.from(currentChecked) } });
+	updateSortOrder: (order) => {
+		set({ sortOrder: order });
 	},
-	// filterHHotelsByStars:
+	sortHotelsDisplayedInList: () => {
+		const { hotelsDisplayedInList, sortOrder } = get();
+		const sortedList = [...hotelsDisplayedInList];
+		if (sortOrder === "desc") {
+			sortedList.sort((a, b) => b.finalPrice - a.finalPrice);
+		} else {
+			sortedList.sort((a, b) => a.finalPrice - b.finalPrice);
+		}
+		set({ hotelsDisplayedInList: sortedList });
+	},
+	onSortOrderChange: (order) => {
+		get().updateSortOrder(order);
+		get().sortHotelsDisplayedInList();
+	},
 	// setPage: () => {
 	// 	const { listedHotels, itemsPerPage, displayedHotels, currentPage, totalPageCount } = get();
 	// 	const totalPages = totalPageCount();
