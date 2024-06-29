@@ -6,12 +6,10 @@ import HotelList from "@/src/components/HotelList";
 import LayoutSearch from "@/src/components/LayoutSearch";
 import MapView from "@/src/components/MapView";
 import React from "react";
-import { useHotelsStore } from "../store/hotelsStore";
+import { useHotelsStore } from "../store/useHotelsStore";
 
 const Search = () => {
-	// const { filters, sortOrder, handleSortChange, handleFilterChange } = useHotels();
-
-	const { fetchHotels, hotelsDisplayedOnMap, hotelsDisplayedInList } = useHotelsStore();
+	const { availableFilters, fetchHotels, hotelsDisplayedOnMap } = useHotelsStore();
 
 	React.useEffect(() => {
 		fetchHotels();
@@ -19,11 +17,10 @@ const Search = () => {
 
 	return (
 		<LayoutSearch
-			// sidebar={<FilterSidebar filters={filters} onFilterChange={handleFilterChange} />}
+			sidebar={<FilterSidebar filters={availableFilters} />}
 			map={<MapView hotels={hotelsDisplayedOnMap} />}
 		>
-			{/* <Header onSortChange={handleSortChange} /> */}
-			<HotelList hotels={hotelsDisplayedInList} />
+			<HotelList />
 		</LayoutSearch>
 	);
 };

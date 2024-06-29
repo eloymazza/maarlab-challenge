@@ -1,21 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import HotelCard from "./HotelCard";
 import { ListContainer, CardWrapper } from "../styles/components/HotelListStyled";
-import { Hotel } from "../store/types";
-import { useHotelsStore } from "../store/hotelsStore";
+import { useHotelsStore } from "../store/useHotelsStore";
 
-interface HotelListProps {
-	hotels: Hotel[];
-}
-
-const HotelList: React.FC<HotelListProps> = ({ hotels }) => {
-	const { fetchMore, isLoading, setLoading, hasMore } = useHotelsStore();
+const HotelList = () => {
+	const { fetchMore, isLoading, setLoading, hasMore, hotelsDisplayedInList, applyFilters } = useHotelsStore();
 
 	const fetchAgain = async () => {
 		setLoading(true);
 		setTimeout(async () => {
 			// TODO: manage erorres
 			await fetchMore();
+			applyFilters();
 			setLoading(false);
 		}, 2000);
 	};
@@ -31,7 +27,7 @@ const HotelList: React.FC<HotelListProps> = ({ hotels }) => {
 
 	return (
 		<ListContainer onScroll={(e) => handleScroll(e)}>
-			{hotels.map((hotel, index) => (
+			{hotelsDisplayedInList.map((hotel, index) => (
 				<CardWrapper key={index}>
 					<HotelCard hotel={hotel} />
 				</CardWrapper>

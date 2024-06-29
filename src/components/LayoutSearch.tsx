@@ -13,16 +13,12 @@ import {
 // Definición de props
 interface LayoutProps {
 	children: ReactNode;
-	// sidebar: ReactNode;
+	sidebar: ReactNode;
 	map: ReactNode;
 }
 
 // Componente Layout
-const Layout: React.FC<LayoutProps> = ({
-	children,
-	// sidebar,
-	map,
-}) => {
+const Layout: React.FC<LayoutProps> = ({ children, sidebar, map }) => {
 	const router = useRouter();
 
 	return (
@@ -31,7 +27,7 @@ const Layout: React.FC<LayoutProps> = ({
 				<h1>Hotel Finder</h1>
 			</HeaderContainer>
 			<MainContainer>
-				{/* <Sidebar>{sidebar}</Sidebar> */}
+				<Sidebar>{sidebar}</Sidebar>
 				<MainContent>{children}</MainContent>
 				<MapContainer>{map}</MapContainer>
 			</MainContainer>

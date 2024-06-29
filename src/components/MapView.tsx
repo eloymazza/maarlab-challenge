@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { MapContainer } from "../styles/components/MapViewStyled";
 import { Hotel } from "../store/types";
-import { useHotelsStore } from "../store/hotelsStore";
+import { useHotelsStore } from "../store/useHotelsStore";
 
 mapboxgl.accessToken =
 	process.env.NEXT_PUBLIC_MAPBOX_TOKEN ||

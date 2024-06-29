@@ -1,11 +1,11 @@
 import { create } from "zustand";
 import { getHotels } from "../api/api";
-import { Hotel, Marker, StarOption } from "./types";
-// import { Hotel, Marker, StarOption } from "./types";
-// import { getData } from "@/lib/utils";
+import { Filter, Hotel, Marker, StarOption } from "./types";
+import { filterData } from "./FilterData";
 
 interface State {
 	hotels: Hotel[];
+	discoveredHotels: Hotel[];
 	hotelsDisplayedInList: Hotel[];
 	hotelsDisplayedOnMap: Hotel[];
 	currentPage: number;
@@ -19,9 +19,13 @@ interface State {
 	markers: Marker[];
 	order: "asc" | "desc";
 	hasMore: boolean;
+	availableFilters: Filter[];
+	selectedFilters: { [key: string]: Set<string> };
 	fetchHotels: () => void;
 	fetchMore: () => Promise<void>;
 	setLoading: (loading: boolean) => void;
+	handleFilterChange: (filterTitle: string, optionValue: string, isChecked: boolean) => void;
+	updateSelectedFilters: (filterTitle: string, optionValue: string, isChecked: boolean) => void;
 	// filterHotels: () => void;
 	filterHotelsByMapView: (bounds: mapboxgl.LngLatBounds) => void;
 	// getStarOptions: () => void;
@@ -30,11 +34,13 @@ interface State {
 	// totalPageCount: () => number;
 	// setPage: () => void;
 	setMarkers: () => void;
+	applyFilters: () => void;
 	// sortByKey: (key: "finalPrice" | "star", order: "asc" | "desc", label: string) => void;
 }
 
 export const useHotelsStore = create<State>((set, get) => ({
 	hotels: [],
+	discoveredHotels: [],
 	hotelsDisplayedInList: [],
 	hotelsDisplayedOnMap: [],
 	currentPage: 1,
@@ -49,25 +55,30 @@ export const useHotelsStore = create<State>((set, get) => ({
 	markers: [],
 	hasMore: true,
 	order: "asc",
+	availableFilters: filterData,
+	selectedFilters: {},
 	fetchHotels: async () => {
 		const { itemsPerPage, currentPage } = get();
 		const data: Hotel[] = await getHotels();
 		const hotels = data.map((item) => ({ ...item, id: crypto.randomUUID() }));
+		const hotelsInThisPage = hotels.slice(0, itemsPerPage * currentPage);
 		set({
 			isLoading: false,
 			hotels,
-			hotelsDisplayedInList: hotels.slice(0, itemsPerPage * currentPage),
-			hotelsDisplayedOnMap: hotels.slice(0, itemsPerPage * currentPage),
+			discoveredHotels: hotelsInThisPage,
+			hotelsDisplayedInList: hotelsInThisPage,
+			hotelsDisplayedOnMap: hotelsInThisPage,
 			hasMore: hotels.length > itemsPerPage * currentPage,
 		});
 		set({ currentPage: currentPage + 1 });
 	},
 	fetchMore: async () => {
 		const { hotels, itemsPerPage, currentPage } = get();
+		const hotelsInThisPage = hotels.slice(0, itemsPerPage * currentPage);
 		set({
-			hotelsDisplayedOnMap: hotels.slice(0, itemsPerPage * currentPage),
-			// TODO: manage errors
-			hotelsDisplayedInList: hotels.slice(0, itemsPerPage * currentPage),
+			discoveredHotels: hotelsInThisPage,
+			hotelsDisplayedOnMap: hotelsInThisPage,
+			hotelsDisplayedInList: hotelsInThisPage,
 			hasMore: hotels.length > itemsPerPage * currentPage,
 		});
 		set({ currentPage: currentPage + 1 });
@@ -92,11 +103,57 @@ export const useHotelsStore = create<State>((set, get) => ({
 			const lng = hotel.coordinates.longitude;
 			return bounds.getWest() < lng && lng < bounds.getEast() && bounds.getSouth() < lat && lat < bounds.getNorth();
 		});
-		console.log("filtered", filtered);
+		console.log("filteredByMap", filtered);
 		set({ hotelsDisplayedInList: filtered });
-		// set({ displayedHotels: filtered.slice(0, 5) });
-		// setMarkers();
 	},
+	applyFilters: () => {
+		const { selectedFilters, discoveredHotels } = get();
+		let filteredHotels = [...discoveredHotels];
+		Object.keys(selectedFilters).forEach((filterTitle) => {
+			const filterValues = Array.from(selectedFilters[filterTitle]);
+			filteredHotels = filteredHotels.filter((hotel) => {
+				if (filterTitle === "Stars") {
+					return filterValues.includes(hotel.star.toString());
+				}
+				if (filterTitle === "Price Range") {
+					if (filterValues.includes("under-100") && hotel.finalPrice < 100) return true;
+					if (filterValues.includes("under-200") && hotel.finalPrice < 200) return true;
+					if (filterValues.includes("under-300") && hotel.finalPrice < 300) return true;
+					return false;
+				}
+				return true;
+			});
+		});
+
+		set({ hotelsDisplayedOnMap: filteredHotels });
+		set({ hotelsDisplayedInList: filteredHotels });
+	},
+	updateSelectedFilters: (filterTitle, optionValue, isChecked) => {
+		const { selectedFilters } = get();
+		if (isChecked) {
+			if (!selectedFilters[filterTitle]) {
+				selectedFilters[filterTitle] = new Set();
+			}
+			selectedFilters[filterTitle].add(optionValue);
+		} else {
+			selectedFilters[filterTitle]?.delete(optionValue);
+			if (selectedFilters[filterTitle]?.size === 0) {
+				delete selectedFilters[filterTitle];
+			}
+		}
+		set({ selectedFilters });
+	},
+	handleFilterChange: (filterTitle, optionValue, isChecked) => {
+		// const { activeFilters } = get();
+		// const currentChecked = new Set(activeFilters[filterTitle]);
+		// if (isChecked) {
+		// 	currentChecked.add(optionValue);
+		// } else {
+		// 	currentChecked.delete(optionValue);
+		// }
+		// set({ activeFilters: { ...activeFilters, [filterTitle]: Array.from(currentChecked) } });
+	},
+	// filterHHotelsByStars:
 	// setPage: () => {
 	// 	const { listedHotels, itemsPerPage, displayedHotels, currentPage, totalPageCount } = get();
 	// 	const totalPages = totalPageCount();

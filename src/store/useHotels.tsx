@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { filterData } from "./constants/FilterData";
-import { Hotel } from "../store/types";
+import { Hotel } from "./types";
+import { filterData } from "./FilterData";
 
 const useHotels = () => {
 	const [hotels, setHotels] = useState<Hotel[]>([]);
@@ -64,10 +64,10 @@ const useHotels = () => {
 	return {
 		// hotels,
 		// filteredHotels,
-		// filters,
+		filters,
 		// sortOrder,
 		// handleSortChange,
-		// handleFilterChange,
+		handleFilterChange,
 	};
 };
 

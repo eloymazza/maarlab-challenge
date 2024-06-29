@@ -32,3 +32,13 @@ export interface PriceFormatting {
 	currency: "USD" | "EUR";
 	locale: "us-US" | "es-ES";
 }
+
+export interface FilterOption {
+	label: string;
+	value: string;
+}
+
+export interface Filter {
+	title: string;
+	options: FilterOption[];
+}
