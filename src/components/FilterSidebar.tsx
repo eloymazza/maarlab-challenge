@@ -1,8 +1,7 @@
-import React, { useState } from "react";
-import { FilterContainer, Card, FilterTitle, FilterCheckbox } from "../styles/components/FilterSidebarStyled";
+import React from "react";
 import { useHotelsStore } from "../store/useHotelsStore";
+import FilterCard from "./FilterCard";
 
-// Definición de tipos
 interface FilterOption {
 	value: string;
 	label: string;
@@ -26,23 +25,8 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters }) => {
 
 	return (
 		<>
-			{filters.map((filter) => (
-				<Card key={filter.title}>
-					<FilterContainer>
-						<FilterTitle>{filter.title}</FilterTitle>
-						{filter.options.map(({ value, label }) => (
-							<FilterCheckbox key={value}>
-								<input
-									type='checkbox'
-									value={value}
-									onChange={(e) => handleFilterChange(filter.title, value, e.target.checked)}
-									data-testid={`checkbox-${value}`}
-								/>
-								<label>{label}</label>
-							</FilterCheckbox>
-						))}
-					</FilterContainer>
-				</Card>
+			{filters.map(({ title, options }) => (
+				<FilterCard key={title} title={title} options={options} onFilterChange={handleFilterChange} />
 			))}
 		</>
 	);

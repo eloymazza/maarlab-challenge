@@ -7,7 +7,6 @@ import {
 	Sidebar,
 	MainContent,
 	MapContainer,
-	HomeButton,
 } from "../styles/components/LayoutSearchStyled"; // Importa los estilos desde LayoutStyles.tsx
 
 // Definición de props

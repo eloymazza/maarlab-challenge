@@ -5,6 +5,9 @@ export const LayoutContainer = styled.div`
   flex-direction: column;
   height: 100vh;
   background-color: #f8f9fa;
+  @media (max-width: 768px) {
+    height: 100%;
+  }
 `;
 
 export const HeaderContainer = styled.header`
@@ -23,12 +26,11 @@ export const MainContainer = styled.main`
   flex-direction: row;
   @media (max-width: 768px) {
     flex-direction: column;
-    padding: 1rem 1rem;
+    padding: 0 .1rem;
   }
 `;
 
 export const Sidebar = styled.div`
-  width: 20%%;
   background-color: #fff;
   padding: 1rem;
   border-right: 1px solid #dee2e6;
@@ -36,6 +38,7 @@ export const Sidebar = styled.div`
     width: 100%;
     border-right: none;
     border-bottom: 1px solid #dee2e6;
+    padding: 0 1rem;
   }
 `;
 
@@ -45,8 +48,7 @@ export const MainContent = styled.div`
   overflow-y: auto;
   @media (max-width: 768px) {
     width: 100%;
-    max-height: 55dvh;
-      overflow-y: hidden;
+    overflow-y: hidden;
   }
 `;
 
@@ -58,9 +60,6 @@ export const MapContainer = styled.div`
     width: 100%;
     border-left: none;
     border-top: 1px solid #dee2e6;
-    position: fixed;
-    bottom: 0;
-    left: 0;
     height: 35vh;
     width: 100%;
     z-index: 1000;

@@ -22,8 +22,11 @@ export const ListContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-height: 76dvh;
+  max-height: 75dvh;
   overflow-y: auto; 
+  @media (max-width: 768px) {
+      max-height: 95dvh;
+  }
 `;
 
 export const CardWrapper = styled.div`

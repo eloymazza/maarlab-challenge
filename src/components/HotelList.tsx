@@ -2,6 +2,7 @@ import React from "react";
 import HotelCard from "./HotelCard";
 import { ListContainer, CardWrapper } from "../styles/components/HotelListStyled";
 import { useHotelsStore } from "../store/useHotelsStore";
+import { LoadingStyled } from "../styles/components/LoadingStyled";
 
 const HotelList = () => {
 	const { fetchMore, isLoading, setLoading, hasMore, hotelsDisplayedInList, applyFilters, sortHotelsDisplayedInList } =
@@ -34,27 +35,7 @@ const HotelList = () => {
 					<HotelCard hotel={hotel} />
 				</CardWrapper>
 			))}
-			{isLoading && (
-				<div
-					style={{
-						position: "fixed",
-						display: "flex",
-						justifyContent: "center",
-						alignItems: "center",
-						width: "400px",
-						top: "35%",
-						left: "calc(50% - (400px/2))",
-						fontSize: "1.75rem",
-						fontWeight: "bold",
-						height: "200px",
-						color: "white",
-						backgroundColor: "black",
-						zIndex: 500,
-					}}
-				>
-					Loading...
-				</div>
-			)}
+			{isLoading && <LoadingStyled>Loading...</LoadingStyled>}
 		</ListContainer>
 	);
 };
