@@ -30,6 +30,7 @@ const MapView: React.FC<MapViewProps> = ({ hotels }) => {
 
 			map.on("moveend", () => {
 				const bounds = map.getBounds();
+				// TODO: Aca deberia enviar las coordenadas para que la store no dependa de concoer la librerai del mapa
 				filterHotelsByMapView(bounds);
 			});
 

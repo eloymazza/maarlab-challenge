@@ -25,19 +25,13 @@ interface State {
 	fetchMore: () => Promise<void>;
 	setLoading: (loading: boolean) => void;
 	updateSelectedFilters: (filterTitle: string, optionValue: string, isChecked: boolean) => void;
+	// TODO: Aqui hay una dependencia de la libreria de mapas
 	filterHotelsByMapView: (bounds: mapboxgl.LngLatBounds) => void;
-
-	// getStarOptions: () => void;
-	// toggleStarOptionChecked: (id: number) => void;
-	// togglePopularOption: (option: string) => void;
-	// totalPageCount: () => number;
-	// setPage: () => void;
 	setMarkers: () => void;
 	applyFilters: () => void;
 	sortHotelsDisplayedInList: () => void;
 	updateSortOrder: (order: SortOrder) => void;
 	onSortOrderChange: (order: SortOrder) => void;
-	// sortByKey: (key: "finalPrice" | "star", order: "asc" | "desc", label: string) => void;
 }
 
 export const useHotelsStore = create<State>((set, get) => ({
@@ -125,7 +119,6 @@ export const useHotelsStore = create<State>((set, get) => ({
 				return true;
 			});
 		});
-
 		set({ hotelsDisplayedOnMap: filteredHotels });
 		set({ hotelsDisplayedInList: filteredHotels });
 	},
@@ -150,6 +143,7 @@ export const useHotelsStore = create<State>((set, get) => ({
 	sortHotelsDisplayedInList: () => {
 		const { hotelsDisplayedInList, sortOrder } = get();
 		const sortedList = [...hotelsDisplayedInList];
+		// TODO: this musy be a constant
 		if (sortOrder === "desc") {
 			sortedList.sort((a, b) => b.finalPrice - a.finalPrice);
 		} else {
@@ -161,96 +155,4 @@ export const useHotelsStore = create<State>((set, get) => ({
 		get().updateSortOrder(order);
 		get().sortHotelsDisplayedInList();
 	},
-	// setPage: () => {
-	// 	const { listedHotels, itemsPerPage, displayedHotels, currentPage, totalPageCount } = get();
-	// 	const totalPages = totalPageCount();
-	// 	if (currentPage <= totalPages) {
-	// 		set({ isLoading: true });
-	// 		const startIndex = (currentPage - 1) * itemsPerPage;
-	// 		const endIndex = startIndex + itemsPerPage;
-	// 		const newDisplayedHotels = listedHotels.slice(startIndex, endIndex);
-	// 		setTimeout(() => {
-	// 			set({ isLoading: false });
-	// 			set({
-	// 				currentPage: currentPage + 1,
-	// 				displayedHotels: [...displayedHotels, ...newDisplayedHotels],
-	// 			});
-	// 		}, 1000);
-	// 	}
-	// },
-	// totalPageCount: () => {
-	// 	const { listedHotels, itemsPerPage } = get();
-	// 	return Math.ceil(listedHotels.length / itemsPerPage);
-	// },
-	// sortByKey: (key, order, label) => {
-	// 	const { listedHotels, itemsPerPage } = get();
-	// 	const sortedItems: Hotel[] = listedHotels.sort((a, b) => {
-	// 		const x: number = a[key];
-	// 		const y: number = b[key];
-	// 		if (order === "desc") {
-	// 			return x > y ? -1 : x < y ? 1 : 0;
-	// 		} else {
-	// 			return x < y ? -1 : x > y ? 1 : 0;
-	// 		}
-	// 	});
-	// 	set({
-	// 		listedHotels: sortedItems,
-	// 		orderLabel: label,
-	// 		displayedHotels: sortedItems.slice(0, itemsPerPage),
-	// 		currentPage: 2,
-	// 		order: order,
-	// 	});
-	// },
-	// getStarOptions: () => {
-	// 	const { hotels } = get();
-
-	// 	const counts = new Array(5).fill(null).map((_, index) => ({
-	// 		id: index + 1,
-	// 		label: `${index + 1}-star hotel`,
-	// 		count: 0,
-	// 	}));
-
-	// 	hotels.forEach((item) => {
-	// 		counts[item.star - 1].count++;
-	// 	});
-
-	// 	counts.sort((a, b) => b.id - a.id);
-	// 	set({ starOptions: counts });
-	// },
-	// toggleStarOptionChecked: (id) => {
-	// 	const { starOptionsChecked } = get();
-	// 	const currentChecked = new Set(starOptionsChecked);
-	// 	if (currentChecked.has(id)) {
-	// 		currentChecked.delete(id);
-	// 	} else {
-	// 		currentChecked.add(id);
-	// 	}
-	// 	set({ starOptionsChecked: Array.from(currentChecked) });
-	// },
-	// togglePopularOption: (option) => {
-	// 	const { popularOptionsToggled } = get();
-	// 	const currentChecked = new Set(popularOptionsToggled);
-	// 	if (currentChecked.has(option)) {
-	// 		currentChecked.delete(option);
-	// 	} else {
-	// 		currentChecked.add(option);
-	// 	}
-	// 	set({ popularOptionsToggled: Array.from(currentChecked) });
-	// },
-	// filterHotels: () => {
-	// 	const { hotels, starOptionsChecked, popularOptionsToggled, setMarkers } = get();
-	// 	if (starOptionsChecked.length > 0 || popularOptionsToggled.length > 0) {
-	// 		const filtered = hotels.filter(
-	// 			(hotel) =>
-	// 				starOptionsChecked.includes(hotel.star) ||
-	// 				hotel.features.some((feature) => popularOptionsToggled.includes(feature))
-	// 		);
-	// 		set({ listedHotels: filtered, currentPage: 2 });
-	// 		set({ displayedHotels: filtered.slice(0, 5) });
-	// 	} else {
-	// 		set({ listedHotels: hotels, currentPage: 2 });
-	// 		set({ displayedHotels: hotels.slice(0, 5) });
-	// 	}
-	// 	setMarkers();
-	// },
 }));
