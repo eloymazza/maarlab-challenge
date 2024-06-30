@@ -1,5 +1,4 @@
 import React, { ReactNode } from "react";
-import { useRouter } from "next/navigation";
 import {
 	LayoutContainer,
 	HeaderContainer,
@@ -18,7 +17,6 @@ interface LayoutProps {
 
 // Componente Layout
 const Layout: React.FC<LayoutProps> = ({ children, sidebar, map }) => {
-	const router = useRouter();
 
 	return (
 		<LayoutContainer>

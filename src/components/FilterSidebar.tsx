@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { useHotelsStore } from "../store/useHotelsStore";
 import FilterCard from "./FilterCard";
 
@@ -26,7 +26,9 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ filters }) => {
 	return (
 		<>
 			{filters.map(({ title, options }) => (
-				<FilterCard key={title} title={title} options={options} onFilterChange={handleFilterChange} />
+				<Fragment key={title}>
+					<FilterCard  title={title} options={options} onFilterChange={handleFilterChange} />
+				</Fragment>
 			))}
 		</>
 	);

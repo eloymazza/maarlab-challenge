@@ -29,7 +29,7 @@ const HotelList = () => {
 	};
 
 	return (
-		<ListContainer onScroll={(e) => handleScroll(e)}>
+		<ListContainer onScroll={(e) => handleScroll(e)} data-testid="hotels-list">
 			{hotelsDisplayedInList.map((hotel, index) => (
 				<CardWrapper key={index}>
 					<HotelCard hotel={hotel} />

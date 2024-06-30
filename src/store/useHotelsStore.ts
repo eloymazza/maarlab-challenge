@@ -62,7 +62,7 @@ export const useHotelsStore = create<State>((set, get) => ({
 	fetchHotels: async () => {
 		const { itemsPerPage, currentPage } = get();
 		const data: Hotel[] = await getHotels();
-		const hotels = data.map((item) => ({ ...item, id: crypto.randomUUID() }));
+		const hotels = data.map((item) => ({ ...item, id: Math.random().toString() }));
 		const hotelsInThisPage = hotels.slice(0, itemsPerPage * currentPage);
 		set({
 			isLoading: false,

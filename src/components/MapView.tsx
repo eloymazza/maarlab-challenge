@@ -40,7 +40,7 @@ const MapView: React.FC<MapViewProps> = ({ hotels }) => {
 	useEffect(() => {
 		if (mapRef.current) {
 			// Eliminar marcadores anteriores
-			markersRef.current.forEach((marker) => marker.remove());
+			markersRef.current.forEach((marker) => marker?.remove());
 			markersRef.current = []; // Vaciar la referencia de marcadores
 
 			// Añadir nuevos marcadores

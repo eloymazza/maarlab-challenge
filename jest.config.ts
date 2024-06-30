@@ -13,6 +13,9 @@ const config: Config = {
   testEnvironment: 'jsdom',
   setupFiles: ['jest-canvas-mock'],
   setupFilesAfterEnv: ["<rootDir>/setupTests.js"],
+  moduleNameMapper: {
+    'mapbox-gl': '<rootDir>/src/__mocks__/mapbox-gl.js',
+  },
   globals: {
     'ts-jest': {
       diagnostics: false,
