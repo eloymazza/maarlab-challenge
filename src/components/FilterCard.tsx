@@ -27,7 +27,7 @@ const FilterCard: React.FC<FilterCardProps> = ({ title, options, onFilterChange 
 							<FilterCheckbox key={value} >
 								<input
 									type='checkbox'
-									data-testid={`filter-${label.replace(' ', '-')}`}
+									data-testid={`filter-${label.replace(' ', '-').replace('$', '')}`}
 									value={value}
 									onChange={(e) => onFilterChange(title, value, e.target.checked)}
 									id={identifier}

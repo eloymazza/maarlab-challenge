@@ -35,7 +35,7 @@ const HotelList = () => {
 					<HotelCard hotel={hotel} />
 				</CardWrapper>
 			))}
-			{isLoading && <LoadingStyled>Loading...</LoadingStyled>}
+			{isLoading && <LoadingStyled data-testid="loader">Loading...</LoadingStyled>}
 		</ListContainer>
 	);
 };

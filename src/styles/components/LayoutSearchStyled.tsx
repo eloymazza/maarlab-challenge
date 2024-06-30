@@ -33,6 +33,7 @@ export const MainContainer = styled.main`
 export const Sidebar = styled.div`
   background-color: #fff;
   padding: 1rem;
+  width: 18%;
   border-right: 1px solid #dee2e6;
   @media (max-width: 768px) {
     width: 100%;

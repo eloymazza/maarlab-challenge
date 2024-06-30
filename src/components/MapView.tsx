@@ -13,6 +13,7 @@ interface MapViewProps {
 	hotels: Hotel[];
 }
 
+// TODO: This should be a reusable component. It should not depend on the store
 const MapView: React.FC<MapViewProps> = ({ hotels }) => {
 	const { filterHotelsByMapView } = useHotelsStore();
 	const mapContainerRef = useRef<HTMLDivElement | null>(null);
@@ -65,7 +66,7 @@ const MapView: React.FC<MapViewProps> = ({ hotels }) => {
 		}
 	}, [hotels]);
 
-	return <MapContainer ref={mapContainerRef} />;
+	return <MapContainer data-testid="hotels-map" ref={mapContainerRef} />;
 };
 
 export default MapView;
